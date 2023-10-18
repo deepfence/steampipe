@@ -2,7 +2,7 @@ module github.com/turbot/steampipe
 
 go 1.19
 
-replace github.com/turbot/steampipe-plugin-sdk/v5 v5.4.1 => github.com/deepfence/steampipe-plugin-sdk/v5 v5.5.2-0.20230923041451-887dc5ddca74
+replace github.com/turbot/steampipe-plugin-sdk/v5 v5.4.1 => github.com/deepfence/steampipe-plugin-sdk/v5 v5.5.2-0.20231018174057-72873ce1a37b
 
 require (
 	github.com/Machiel/slugify v1.0.1

@@ -415,8 +415,8 @@ github.com/deepfence/gocache/store/postgresqlcache/v4 v4.1.5-0.20230922155124-f4
 github.com/deepfence/gocache/store/postgresqlcache/v4 v4.1.5-0.20230922155124-f4b7d91a3c1a/go.mod h1:e/NQVWwvjWvdSDuBb6gurip8sYTYrAhikGL3o8nhn04=
 github.com/deepfence/gocache/store/ristretto/v4 v4.1.4 h1:Ui5VzawfI+o60ifMC31/cjzSsFeV9nrVnI6Qutf1Y18=
 github.com/deepfence/gocache/store/ristretto/v4 v4.1.4/go.mod h1:IxFmi4cXMDnHANaAO9gfFys0ttFINlqskE2Au7QO2k4=
-github.com/deepfence/steampipe-plugin-sdk/v5 v5.5.2-0.20230923041451-887dc5ddca74 h1:1WtSniRpP4i/Q+BioSpcX3/uBV6BJd3nZj5Ni93P488=
-github.com/deepfence/steampipe-plugin-sdk/v5 v5.5.2-0.20230923041451-887dc5ddca74/go.mod h1:hrgpahBLEjGp+9sxFa+9cZ9HPoBGCjnOKfb6RJ9IFjs=
+github.com/deepfence/steampipe-plugin-sdk/v5 v5.5.2-0.20231018174057-72873ce1a37b h1:0CbY58/nDoAklgOlpq6LpY4DIYBvFv8+lmCgZbSc3MY=
+github.com/deepfence/steampipe-plugin-sdk/v5 v5.5.2-0.20231018174057-72873ce1a37b/go.mod h1:hrgpahBLEjGp+9sxFa+9cZ9HPoBGCjnOKfb6RJ9IFjs=
 github.com/dgraph-io/ristretto v0.1.1 h1:6CWw5tJNgpegArSHpNHJKldNeq03FQCwYvfMVWajOK8=
 github.com/dgraph-io/ristretto v0.1.1/go.mod h1:S1GPSBCYCIhmVNfcth17y2zZtQT6wzkzgwUve0VDWWA=
 github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=

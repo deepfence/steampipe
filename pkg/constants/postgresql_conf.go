@@ -64,4 +64,6 @@ log_min_duration_statement=5000
 # or aggregators with a large number of sub connections (or both)
 max_locks_per_transaction = 2048 
 
+shared_buffers=256MB
+max_connections=1000
 `
