@@ -24,6 +24,11 @@ import (
 
 var ensureMux sync.Mutex
 
+const (
+	cacheDatabaseName = "postgresqlcache"
+	cacheDatabaseUser = "postgresqlcache"
+)
+
 func noBackupWarning() string {
 	warningMessage := `Steampipe database has been upgraded from Postgres 12 to Postgres 14.
 
@@ -321,6 +326,16 @@ func runInstall(ctx context.Context, oldDbName *string) error {
 		log.Printf("[TRACE] installSteampipeDatabaseAndUser failed: %v", err)
 		return fmt.Errorf("Configuring database... FAILED!")
 	}
+	err = installCacheDatabaseWithPermissions(ctx, client)
+	if err != nil {
+		log.Printf("[TRACE] installCacheDatabaseAndUser failed: %v", err)
+		return fmt.Errorf("Configuring cache database... FAILED!")
+	}
+	err = writePgHbaContent(databaseName, constants.DatabaseUser)
+	if err != nil {
+		log.Printf("[TRACE] writePgHbaContent failed: %v", err)
+		return fmt.Errorf("writePgHbaContent FAILED!")
+	}
 
 	statushooks.SetStatus(ctx, "Configuring Steampipe…")
 	err = installForeignServer(ctx, client)
@@ -429,6 +444,27 @@ func initDatabase() error {
 	return os.WriteFile(filepaths.GetPgHbaConfLocation(), []byte(constants.MinimalPgHbaContent), 0600)
 }
 
+func installCacheDatabaseWithPermissions(ctx context.Context, rawClient *pgx.Conn) error {
+	utils.LogTime("db_local.install.installDatabaseWithPermissions start")
+	defer utils.LogTime("db_local.install.installDatabaseWithPermissions end")
+
+	log.Println("[TRACE] installing database with name", cacheDatabaseName)
+
+	statements := []string{
+		fmt.Sprintf("CREATE DATABASE %s", cacheDatabaseName),
+		fmt.Sprintf("CREATE USER %s", cacheDatabaseUser),
+		fmt.Sprintf("GRANT ALL PRIVILEGES ON DATABASE %s TO %s", cacheDatabaseName, cacheDatabaseUser),
+	}
+	for _, statement := range statements {
+		// not logging here, since the password may get logged
+		// we don't want that
+		if _, err := rawClient.Exec(ctx, statement); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func installDatabaseWithPermissions(ctx context.Context, databaseName string, rawClient *pgx.Conn) error {
 	utils.LogTime("db_local.install.installDatabaseWithPermissions start")
 	defer utils.LogTime("db_local.install.installDatabaseWithPermissions end")
@@ -494,11 +530,11 @@ func installDatabaseWithPermissions(ctx context.Context, databaseName string, ra
 			return err
 		}
 	}
-	return writePgHbaContent(databaseName, constants.DatabaseUser)
+	return nil
 }
 
 func writePgHbaContent(databaseName string, username string) error {
-	content := fmt.Sprintf(constants.PgHbaTemplate, databaseName, username)
+	content := fmt.Sprintf(constants.PgHbaTemplate, databaseName, username, cacheDatabaseName, cacheDatabaseUser)
 	return os.WriteFile(filepaths.GetPgHbaConfLocation(), []byte(content), 0600)
 }
 
